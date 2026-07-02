@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:note_management_app/core/theme/app_theme.dart';
+import 'screens/notes/notes_screen.dart';
 
 import 'firebase_options.dart';
 
@@ -18,16 +20,9 @@ class NoteManagementApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Note Management App',
-      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.indigo),
-      home: const Scaffold(
-        body: Center(
-          child: Text(
-            'Firebase Connected Successfully 🎉',
-            style: TextStyle(fontSize: 22),
-          ),
-        ),
-      ),
+      title: 'Cloud Notes Pro',
+      theme: AppTheme.lightTheme,
+      home: const NotesScreen(),
     );
   }
 }
