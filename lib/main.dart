@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:note_management_app/core/theme/app_theme.dart';
+import 'package:note_management_app/providers/note_provider.dart';
 import 'screens/notes/notes_screen.dart';
+import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 
@@ -10,7 +12,12 @@ Future<void> main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  runApp(const NoteManagementApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => NoteProvider(),
+      child: const NoteManagementApp(),
+    ),
+  );
 }
 
 class NoteManagementApp extends StatelessWidget {
