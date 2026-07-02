@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "530808222743",
+    "project_id": "notex007-1611c",
+    "storage_bucket": "notex007-1611c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530808222743:android:1000d0696257f22b0b5852",
+        "android_client_info": {
+          "package_name": "com.example.note_management_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDO9CKAl2odKZkVObu-9nz9_fcpeLJtnk8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
