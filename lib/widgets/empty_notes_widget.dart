@@ -1,31 +1,57 @@
 import 'package:flutter/material.dart';
 
 class EmptyNotesWidget extends StatelessWidget {
-  const EmptyNotesWidget({super.key});
+  final VoidCallback onCreateNote;
+
+  const EmptyNotesWidget({super.key, required this.onCreateNote});
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.symmetric(horizontal: 32),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.note_alt_outlined,
-              size: 90,
-              color: Colors.grey.shade400,
+            Container(
+              height: 130,
+              width: 130,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary.withOpacity(.08),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.sticky_note_2_outlined,
+                size: 70,
+                color: theme.colorScheme.primary,
+              ),
             ),
-            const SizedBox(height: 20),
-            const Text(
-              "No Notes Yet",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
+
+            const SizedBox(height: 30),
+
             Text(
-              "Tap the + button to create your first note.",
-              style: TextStyle(color: Colors.grey.shade600),
+              "No Notes Yet",
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            Text(
+              "Create your first note to keep your ideas, tasks, and reminders organized.",
               textAlign: TextAlign.center,
+              style: theme.textTheme.bodyMedium,
+            ),
+
+            const SizedBox(height: 30),
+
+            FilledButton.icon(
+              onPressed: onCreateNote,
+              icon: const Icon(Icons.add),
+              label: const Text("Create Note"),
             ),
           ],
         ),

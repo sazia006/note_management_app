@@ -6,17 +6,100 @@ import '../services/firestore_service.dart';
 class NoteProvider extends ChangeNotifier {
   final FirestoreService _service = FirestoreService();
 
-  Stream<List<Note>> get notes => _service.getNotes();
+  final List<Note> _notes = [];
 
-  Future<void> addNote(Note note) async {
-    await _service.addNote(note);
+  bool _isLoading = false;
+
+  String _searchQuery = '';
+
+  String? _errorMessage;
+
+  List<Note> get notes {
+    if (_searchQuery.isEmpty) {
+      return List.unmodifiable(_notes);
+    }
+
+    return _notes.where((note) {
+      final query = _searchQuery.toLowerCase();
+
+      return note.title.toLowerCase().contains(query) ||
+          note.description.toLowerCase().contains(query);
+    }).toList();
   }
 
-  Future<void> updateNote(Note note) async {
-    await _service.updateNote(note);
+  bool get isLoading => _isLoading;
+
+  String? get errorMessage => _errorMessage;
+
+  Future<void> loadNotes() async {
+    try {
+      _isLoading = true;
+      _errorMessage = null;
+      notifyListeners();
+
+      final data = await _service.fetchNotes();
+
+      _notes
+        ..clear()
+        ..addAll(data);
+    } catch (e) {
+      _errorMessage = e.toString();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 
-  Future<void> deleteNote(String id) async {
-    await _service.deleteNote(id);
+  Future<bool> addNote({
+    required String title,
+    required String description,
+  }) async {
+    try {
+      await _service.addNote(title: title, description: description);
+
+      await loadNotes();
+
+      return true;
+    } catch (e) {
+      _errorMessage = e.toString();
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> updateNote(Note note) async {
+    try {
+      await _service.updateNote(note);
+
+      await loadNotes();
+
+      return true;
+    } catch (e) {
+      _errorMessage = e.toString();
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> deleteNote(String id) async {
+    try {
+      await _service.deleteNote(id);
+
+      _notes.removeWhere((note) => note.id == id);
+
+      notifyListeners();
+
+      return true;
+    } catch (e) {
+      _errorMessage = e.toString();
+      notifyListeners();
+      return false;
+    }
+  }
+
+  void updateSearch(String value) {
+    _searchQuery = value.trim();
+
+    notifyListeners();
   }
 }

@@ -15,25 +15,30 @@ class Note {
     required this.updatedAt,
   });
 
-  factory Note.fromMap(Map<String, dynamic> map, String documentId) {
+  /// Create Note object from Firestore document
+  factory Note.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
+    final data = doc.data()!;
+
     return Note(
-      id: documentId,
-      title: map['title'] ?? '',
-      description: map['description'] ?? '',
-      createdAt: (map['createdAt'] as Timestamp).toDate(),
-      updatedAt: (map['updatedAt'] as Timestamp).toDate(),
+      id: doc.id,
+      title: data['title'] ?? '',
+      description: data['description'] ?? '',
+      createdAt: (data['createdAt'] as Timestamp).toDate(),
+      updatedAt: (data['updatedAt'] as Timestamp).toDate(),
     );
   }
 
-  Map<String, dynamic> toMap() {
+  /// Convert Note object to Firestore map
+  Map<String, dynamic> toFirestore() {
     return {
-      'title': title,
-      'description': description,
+      'title': title.trim(),
+      'description': description.trim(),
       'createdAt': Timestamp.fromDate(createdAt),
       'updatedAt': Timestamp.fromDate(updatedAt),
     };
   }
 
+  /// Copy object with modified values
   Note copyWith({
     String? id,
     String? title,
@@ -48,5 +53,27 @@ class Note {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
+  }
+
+  @override
+  String toString() {
+    return 'Note(id: $id, title: $title)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is Note &&
+            runtimeType == other.runtimeType &&
+            id == other.id &&
+            title == other.title &&
+            description == other.description &&
+            createdAt == other.createdAt &&
+            updatedAt == other.updatedAt;
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(id, title, description, createdAt, updatedAt);
   }
 }
