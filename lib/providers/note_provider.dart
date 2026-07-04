@@ -85,9 +85,7 @@ class NoteProvider extends ChangeNotifier {
     try {
       await _service.deleteNote(id);
 
-      _notes.removeWhere((note) => note.id == id);
-
-      notifyListeners();
+      await loadNotes();
 
       return true;
     } catch (e) {
@@ -98,7 +96,7 @@ class NoteProvider extends ChangeNotifier {
   }
 
   void updateSearch(String value) {
-    _searchQuery = value.trim();
+_searchQuery = value.trim().toLowerCase();
 
     notifyListeners();
   }

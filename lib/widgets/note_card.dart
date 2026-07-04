@@ -139,7 +139,7 @@ class NoteCard extends StatelessWidget {
                     const SizedBox(width: 6),
                     Expanded(
                       child: Text(
-                        DateFormat('dd MMM yyyy').format(note.updatedAt),
+                        DateFormat('MMM dd • hh:mm a').format(note.updatedAt),
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: Colors.grey.shade600,
                         ),
