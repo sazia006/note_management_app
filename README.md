@@ -142,7 +142,7 @@ flutter_staggered_grid_view
 ### Clone Repository
 
 ```bash
-git clone https://github.com/sazia007/note_management_app.git
+git clone https://github.com/sazia006/note_management_app.git
 ```
 
 
@@ -232,5 +232,5 @@ flutter run
 Aspiring Flutter Developer
 
 GitHub:
-https://github.com/sazia007
+https://github.com/sazia006
 
